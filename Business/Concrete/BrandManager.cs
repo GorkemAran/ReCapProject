@@ -1,4 +1,6 @@
 ﻿using Business.Abstract;
+using Business.Constants;
+using Core.Utilities.Results;
 using DataAccess.Abstract;
 using DataAccess.Concrete.EntityFramework;
 using Entities.Concrete;
@@ -19,49 +21,29 @@ namespace Business.Concrete
             _brandDal = brandDal;
         }
 
-        public void Add(Brand brand)
+        public IResult Add(Brand brand)
         {
-            using (ReCapContext context = new ReCapContext())
-            {
-                context.Brands.Add(brand);
-                context.SaveChanges();
-            }
+            return new SuccessResult(Messages.BrandAdded);
         }
 
-        public void Delete(Brand brand)
+        public IResult Delete(Brand brand)
         {
-            using (ReCapContext context = new ReCapContext())
-            {
-                context.Brands.Remove(context.Brands.SingleOrDefault(b => b.BrandId == brand.BrandId));
-                context.SaveChanges();
-            }
+            return new SuccessResult(Messages.BrandDeleted);
         }
 
-        public List<Brand> GetAll()
+        public IResult Update(Brand brand)
         {
-            using (ReCapContext context = new ReCapContext())
-            {
-                return context.Brands.ToList();
-            }
+            return new SuccessResult(Messages.BrandUpdated);
         }
 
-        public void Update(Brand brand)
+        public IDataResult<List<Brand>> GetAll()
         {
-            using (ReCapContext context = new ReCapContext())
-            {
-                var brandToUpdate = context.Brands.SingleOrDefault(b => b.BrandId == brand.BrandId);
-                brandToUpdate.BrandId = brand.BrandId;
-                brandToUpdate.BrandName = brand.BrandName;
-                context.SaveChanges();
-            }
+            return new SuccessDataResult<List<Brand>>(_brandDal.GetAll(), Messages.BrandListed);
         }
 
-        public Brand GetById(int id)
+        public IDataResult<Brand> GetById(int id)
         {
-            using (ReCapContext context = new ReCapContext())
-            {
-                return context.Brands.SingleOrDefault(b => b.BrandId == id);
-            }
+            return new SuccessDataResult<Brand>(_brandDal.Get(b => b.BrandId == id));
         }
     }
 }

@@ -1,4 +1,6 @@
 ﻿using Business.Abstract;
+using Business.Constants;
+using Core.Utilities.Results;
 using DataAccess.Abstract;
 using DataAccess.Concrete.EntityFramework;
 using Entities.Concrete;
@@ -18,46 +20,29 @@ namespace Business.Concrete
             _colorDal = colorDal;
         }
 
-        public void Add(Color color)
+        public IResult Add(Color color)
         {
-            using (ReCapContext context = new ReCapContext())
-            {
-                context.Colors.Add(color);
-                context.SaveChanges();
-            }
+            return new SuccessResult(Messages.ColorAdded);
         }
 
-        public void Delete(Color color)
+        public IResult Delete(Color color)
         {
-            using (ReCapContext context = new ReCapContext())
-            {
-                context.Colors.Remove(context.Colors.SingleOrDefault(c => c.ColorId == color.ColorId));
-                context.SaveChanges();
-            }
+            return new SuccessResult(Messages.ColorDeleted);
         }
 
-        public List<Color> GetAll()
+        public IResult Update(Color color)
         {
-            using (ReCapContext context = new ReCapContext())
-            {
-                return context.Colors.ToList();
-            }
+            return new SuccessResult(Messages.ColorUpdated);
         }
 
-        public void Update(Color color)
+        public IDataResult<List<Color>> GetAll()
         {
-            using (ReCapContext context = new ReCapContext())
-            {
-                var colorToUpdate = context.Colors.SingleOrDefault(c => c.ColorId == color.ColorId);
-                colorToUpdate.ColorId = color.ColorId;
-                colorToUpdate.ColorName = color.ColorName;
-                context.SaveChanges();
-            }
+            return new SuccessDataResult<List<Color>>(_colorDal.GetAll());
         }
 
-        Color IColorService.GetById(int id)
+        public IDataResult<Color> GetById(int id)
         {
-            throw new NotImplementedException();
+            return new SuccessDataResult<Color>(_colorDal.Get(c => c.ColorId == id));
         }
     }
 }

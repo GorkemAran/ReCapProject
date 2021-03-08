@@ -14,30 +14,72 @@ namespace ConsoleUI
             //AddCar();
             //AddBrand();
             //AddColor();
-            
-            CarManager carManager = new CarManager(new EfCarDal());
-
-            foreach (var car in carManager.GetCarDetails())
-            {
-                Console.WriteLine("{0} - {1} - {2} - {3}", car.CarName, car.BrandName, car.ColorName, car.DailyPrice);
-            }
+            //AddCustomer();
+            //CarDetailsList();
+            //AddUser();
+            //AddCustomer();
 
 
 
+            //ReCapContext context = new ReCapContext();
 
-            //ReCapContext reCapContext = new ReCapContext();
+            //foreach (var user in context.Users)
+            //{
+            //    Console.WriteLine(user.FirstName);
+            //}
 
-            //foreach (var car in reCapContext.Cars)
+            //ReCapContext context = new ReCapContext();
+
+            //foreach (var car in context.Cars)
             //{
             //    Console.WriteLine(car.CarName);
             //}
+
+            //ReCapContext context = new ReCapContext();
+
+            //foreach (var customer in context.Customers)
+            //{
+            //    Console.WriteLine(customer.FirstName);
+            //}
+        }
+
+        private static void AddUser()
+        {
+            UserManager userManager = new UserManager(new EfUserDal());
+            userManager.Add(new User { FirstName = "Görkem", LastName = "Aran", UserMail = "gorkemaran@gmail.com", Password = "abcd1234" });
+            userManager.Add(new User { FirstName = "Ayşe", LastName = "Gül", UserMail = "aysegul@gmail.com", Password = "abcd12" });
+        }
+
+        private static void AddCustomer()
+        {
+            CustomerManager customerManager = new CustomerManager(new EfCustomerDal());
+            customerManager.Add(new Customer { CompanyName = "Aran Otel"});
+            customerManager.Add(new Customer { CompanyName = "Ece Lojistik"});
+            customerManager.Add(new Customer { CompanyName = "Gül Otel"});
+        }
+
+        private static void CarDetailsList()
+        {
+            CarManager carManager = new CarManager(new EfCarDal());
+            var result = carManager.GetCarDetails();
+            if (result.Success)
+            {
+                foreach (var car in carManager.GetCarDetails().Data)
+                {
+                    Console.WriteLine("{0} - {1} - {2} - {3}", car.CarName, car.BrandName, car.ColorName, car.DailyPrice);
+                }
+            }
+            else
+            {
+                Console.WriteLine(result.Message);
+            }
         }
 
         private static void AddColor()
         {
             ColorManager colorManager = new ColorManager(new EfColorDal());
             colorManager.Add(new Color { ColorId = 10, ColorName = "Sarı" });
-            colorManager.Add(new Color { ColorId = 30, ColorName = "Siayh" });
+            colorManager.Add(new Color { ColorId = 30, ColorName = "Siyah" });
             colorManager.Add(new Color { ColorId = 50, ColorName = "Beyaz" });
         }
 

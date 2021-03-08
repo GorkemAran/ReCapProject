@@ -9,9 +9,5 @@ namespace DataAccess.Concrete.EntityFramework
 {
     public class EfBrandDal : EfEntityRepositoryBase<Brand, ReCapContext>, IBrandDal
     {
-        Brand IEntityRepository<Brand>.GetById(int id)
-        {
-            throw new NotImplementedException();
-        }
     }
 }

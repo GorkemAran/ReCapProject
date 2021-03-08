@@ -1,4 +1,6 @@
 ﻿using Business.Abstract;
+using Business.Constants;
+using Core.Utilities.Results;
 using DataAccess.Abstract;
 using DataAccess.Concrete.EntityFramework;
 using DataAccess.Concrete.InMemory;
@@ -20,78 +22,52 @@ namespace Business.Concrete
             _carDal = carDal;
         }
 
-        public void Add(Car car)
+        public IResult Add(Car car)
         {
             if (car.CarName.Length >= 2 && car.DailyPrice >= 0)
             {
-                using (ReCapContext context = new ReCapContext())
-                {
-                    context.Cars.Add(car);
-                    context.SaveChanges();
-                }
+                return new SuccessResult(Messages.CarAdded);
             }
-        }
-
-        public void Delete(Car car)
-        {
-            using (ReCapContext context = new ReCapContext())
+            else
             {
-                context.Cars.Remove(context.Cars.SingleOrDefault(c => c.CarId == car.CarId));
-                context.SaveChanges();
+                return new ErrorResult(Messages.CantAdded);
             }
         }
 
-        public List<Car> GetAll()
+        public IResult Update(Car car)
         {
-            using (ReCapContext context = new ReCapContext())
-            {
-                return context.Cars.ToList();
-            }
+            return new SuccessResult(Messages.CarUpdated);
         }
 
-        public Car GetById(int id)
+        public IResult Delete(Car car)
         {
-            using (ReCapContext context = new ReCapContext())
-            {
-                return context.Cars.SingleOrDefault(c => c.CarId == id);
-            }
-            
+            return new SuccessResult(Messages.CarDeleted);
         }
 
-        public List<CarDetailDto> GetCarDetails()
+        public IDataResult<List<Car>> GetAll()
         {
-            return _carDal.GetCarDetails();
+            return new SuccessDataResult<List<Car>>(_carDal.GetAll(),Messages.CarListed);
         }
 
-        public List<Car> GetCarsByBrandId(int brandId)
+        public IDataResult<Car> GetById(int id)
         {
-            using (ReCapContext context = new ReCapContext())
-            {
-                return context.Cars.Where(c => c.BrandId == brandId).ToList();
-            }
+            return new SuccessDataResult<Car>(_carDal.Get(c => c.CarId == id));
         }
 
-        public List<Car> GetCarsByColorId(int colorId)
+        public IDataResult<List<CarDetailDto>> GetCarDetails()
         {
-            using (ReCapContext context = new ReCapContext())
-            {
-                return context.Cars.Where(c => c.ColorId == colorId).ToList();
-            }
+            return new SuccessDataResult<List<CarDetailDto>>(_carDal.GetCarDetails());
         }
 
-        public void Update(Car car)
+        public IDataResult<List<Car>> GetCarsByBrandId(int brandId)
         {
-            using (ReCapContext context = new ReCapContext())
-            {
-                var carToUpdate = context.Cars.SingleOrDefault(c => c.CarId == car.CarId);
-                carToUpdate.CarId = car.CarId;
-                carToUpdate.BrandId = car.BrandId;
-                carToUpdate.CarName = car.CarName;
-                carToUpdate.ColorId = car.ColorId;
-                carToUpdate.DailyPrice = car.DailyPrice;
-                carToUpdate.Description = car.Description;
-                context.SaveChanges();
-            }
+            return new SuccessDataResult<List<Car>>(_carDal.GetAll(c => c.BrandId == brandId));
         }
+
+        public IDataResult<List<Car>> GetCarsByColorId(int colorId)
+        {
+            return new SuccessDataResult<List<Car>>(_carDal.GetAll(c => c.ColorId == colorId));
+
+        }  
     }
 }

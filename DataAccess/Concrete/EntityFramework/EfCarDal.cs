@@ -29,9 +29,10 @@ namespace DataAccess.Concrete.EntityFramework
             
         }
 
-        Car IEntityRepository<Car>.GetById(int carId)
+        public Car GetCarDetails(Func<object, bool> p)
         {
             throw new NotImplementedException();
         }
+
     }
 }

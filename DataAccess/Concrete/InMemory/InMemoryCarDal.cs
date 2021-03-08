@@ -35,6 +35,11 @@ namespace DataAccess.Concrete.InMemory
              
         }
 
+        public Car Get(Expression<Func<Car, bool>> filter)
+        {
+            throw new NotImplementedException();
+        }
+
         public List<Car> GetAll(Expression<Func<Car, bool>> filter = null)
         {
             return _cars;
@@ -50,6 +55,11 @@ namespace DataAccess.Concrete.InMemory
             throw new NotImplementedException();
         }
 
+        public Car GetCarDetails(Func<object, bool> p)
+        {
+            throw new NotImplementedException();
+        }
+
         public void Update(Car car)
         {
             Car carToUpdate = _cars.SingleOrDefault(c => c.CarId == car.CarId);
@@ -61,12 +71,6 @@ namespace DataAccess.Concrete.InMemory
             carToUpdate.ModelYear = car.ModelYear;
               
         }
-
-        Car IEntityRepository<Car>.GetById(int carId)
-        {
-            throw new NotImplementedException();
-        }
     }
-
 }
 

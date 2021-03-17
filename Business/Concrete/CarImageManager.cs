@@ -48,9 +48,14 @@ namespace Business.Concrete
             return new SuccessDataResult<CarImage>(_carImageDal.Get(ci => ci.Id == id));
         }
 
+        public IDataResult<List<CarImage>> GetAll()
+        {
+            return new SuccessDataResult<List<CarImage>>(_carImageDal.GetAll());
+        }
+
         public IDataResult<List<CarImage>> GetByCarId(int carId)
         {
-            return new SuccessDataResult<List<CarImage>>(_carImageDal.GetAll(ci => ci.CarId == carId));
+            return new SuccessDataResult<List<CarImage>>(_carImageDal.GetAll().Where(p => p.CarId == carId).ToList());
         }
 
         public IResult Update(IFormFile file, CarImage carImage)
@@ -67,13 +72,18 @@ namespace Business.Concrete
         }
         private IResult CheckImageLimitExceeded(int carId)
         {
-            var carImageCount = _carImageDal.GetAll(p => p.CarId == carId).Count;
-            if (carImageCount > 5)
+            var carImageCount = _carImageDal.GetAll().Where(p => p.CarId == carId).ToList();
+            if (carImageCount.Count >= 5)
             {
                 return new ErrorResult(Messages.CarImageLimitExceeded);
             }
 
             return new SuccessResult();
+        }
+
+        private IDataResult<CarImage> DefaultImage()
+        {
+            return new SuccessDataResult<CarImage>(_carImageDal.Get(ci => ci.CarId == 0));
         }
     }
 }

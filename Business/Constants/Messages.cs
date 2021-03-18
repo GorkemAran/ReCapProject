@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.Serialization;
 using System.Text;
 
 namespace Business.Constants
@@ -38,6 +39,8 @@ namespace Business.Constants
         public static string AddedImage = "Resim eklendi.";
         public static string DeletedImage = "Resim silindi.";
         public static string UpdatedImage = "Resim güncellendi.";
-        public static string CarImageLimitExceeded="Resim limitine ulaşıldı !";
+        public static string CarImageLimitExceeded = "Resim limitine ulaşıldı !";
+
+        public static string AuthorizationDenied = "Doğrulama başarısız !";
     }
 }

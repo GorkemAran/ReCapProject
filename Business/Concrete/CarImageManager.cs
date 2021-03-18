@@ -81,9 +81,18 @@ namespace Business.Concrete
             return new SuccessResult();
         }
 
-        private IDataResult<CarImage> DefaultImage()
+        private IDataResult<CarImage> DefaultImage2()
         {
             return new SuccessDataResult<CarImage>(_carImageDal.Get(ci => ci.CarId == 0));
         }
+
+        //private IDataResult<CarImage> DefaultImage(CarImage carImage)
+        //{
+        //    if (carImage.ImagePath == null)
+        //    {
+        //        carImage.ImagePath = @"\uploads\563bd443-e822-4053-89f1-dce54069dc33.png";
+        //    }
+        //}
+
     }
 }

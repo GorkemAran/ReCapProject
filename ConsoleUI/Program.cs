@@ -19,6 +19,7 @@ namespace ConsoleUI
             //CarDetailsList();
             //AddUser();
             //AddCustomer();
+            AddRental();
 
 
 
@@ -44,19 +45,28 @@ namespace ConsoleUI
             //}
         }
 
+        private static void AddRental()
+        {
+            RentalManager rentalManager = new RentalManager(new EfRentalDal());
+            rentalManager.Add(new Rental { CarId = 1, CustomerId = 2, BrandId = 2, RentDate = DateTime.Now });
+            rentalManager.Add(new Rental { CarId = 2, CustomerId = 3, BrandId = 1, RentDate = DateTime.Now });
+        }
+
         private static void AddUser()
         {
             UserManager userManager = new UserManager(new EfUserDal());
-            userManager.Add(new User { FirstName = "Görkem", LastName = "Aran", Email = "gorkemaran@gmail.com"});
-            userManager.Add(new User { FirstName = "Ayşe", LastName = "Gül", Email = "aysegul@gmail.com"});
+            //userManager.Add(new User { FirstName = "Görkem", LastName = "Aran", Email = "gorkemaran@gmail.com" });
+            //userManager.Add(new User { FirstName = "Ayşe", LastName = "Gül", Email = "aysegul@gmail.com" });
+            userManager.Add(new User { FirstName = "asd", LastName = "qwe", Email = "afqwr@gmail.com" });
         }
 
         private static void AddCustomer()
         {
             CustomerManager customerManager = new CustomerManager(new EfCustomerDal());
-            customerManager.Add(new Customer { CompanyName = "Aran Otel"});
-            customerManager.Add(new Customer { CompanyName = "Ece Lojistik"});
-            customerManager.Add(new Customer { CompanyName = "Gül Otel"});
+            customerManager.Add(new Customer { CompanyName = "Aran Otel" });
+            customerManager.Add(new Customer { CompanyName = "Ece Lojistik" });
+            customerManager.Add(new Customer { CompanyName = "Gül Otel" });
+            customerManager.Add(new Customer { CompanyName = "Zıt Otel" });
         }
 
         private static void CarDetailsList()

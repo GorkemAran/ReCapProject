@@ -11,19 +11,20 @@ namespace WebAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class RentalsController : ControllerBase
+    public class CategoriesController : ControllerBase
     {
-        IRentalService _rentalService;
 
-        public RentalsController(IRentalService rentalService)
+        ICategoryService _categoryService;
+
+        public CategoriesController(ICategoryService categoryService)
         {
-            _rentalService = rentalService;
+            _categoryService = categoryService;
         }
 
         [HttpGet("getall")]
         public IActionResult GetAll()
         {
-            var result = _rentalService.GetAll();
+            var result = _categoryService.GetAll();
             if (result.Success)
             {
                 return Ok(result);
@@ -34,7 +35,7 @@ namespace WebAPI.Controllers
         [HttpGet("getbyid")]
         public IActionResult GetById(int id)
         {
-            var result = _rentalService.GetById(id);
+            var result = _categoryService.GetById(id);
             if (result.Success)
             {
                 return Ok(result);
@@ -43,9 +44,9 @@ namespace WebAPI.Controllers
         }
 
         [HttpPost("add")]
-        public IActionResult Add(Rental rental)
+        public IActionResult Add(Category category)
         {
-            var result = _rentalService.Add(rental);
+            var result = _categoryService.Add(category);
             if (result.Success)
             {
                 return Ok(result);
@@ -54,9 +55,9 @@ namespace WebAPI.Controllers
         }
 
         [HttpPost("delete")]
-        public IActionResult Delete(Rental rental)
+        public IActionResult Delete(Category category)
         {
-            var result = _rentalService.Delete(rental);
+            var result = _categoryService.Delete(category);
             if (result.Success)
             {
                 return Ok(result);
@@ -65,26 +66,14 @@ namespace WebAPI.Controllers
         }
 
         [HttpPost("update")]
-        public IActionResult Update(Rental rental)
+        public IActionResult Update(Category category)
         {
-            var result = _rentalService.Update(rental);
+            var result = _categoryService.Update(category);
             if (result.Success)
             {
                 return Ok(result);
             }
             return BadRequest(result);
-        }
-
-        [HttpGet("getrentaldetails")]
-        public IActionResult GetCarDetails()
-        {
-
-            var result = _rentalService.GetRentalDetails();
-            if (result.Success)
-            {
-                return Ok(result);
-            }
-            return BadRequest(result.Message);
         }
     }
 }

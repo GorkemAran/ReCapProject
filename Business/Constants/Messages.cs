@@ -42,5 +42,9 @@ namespace Business.Constants
         public static string CarImageLimitExceeded = "Resim limitine ulaşıldı !";
 
         public static string AuthorizationDenied = "Doğrulama başarısız !";
+
+        public static string CategoryUpdated= "Kategori güncellendi.";
+        public static string CategoryDeleted= "Kategori silindi.";
+        public static string CategoryAdded= "Kategori eklendi.";
     }
 }
